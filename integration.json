@@ -5,20 +5,23 @@
   "releaseEligible": true,
   "maintainer": "jannikco",
   "license": "MIT",
-  "sourceRevision": "326e13e5219ab41838153fd14e4fa2bac574cb099eb7c58d60f2ae62c9378ffb",
+  "sourceRevision": "509358ec0cb55ff51f5062144fb3ce4491a963a99686046c8bcff7e837bb9532",
   "evidence": [
-    "Source-backed provider setup metadata",
-    "Offline configuration and MCP protocol tests"
+    "Actual tools/call and direct-provider request contract tests"
   ],
   "provenance": [
     "https://api.attio.com/openapi/api"
   ],
   "id": "attio-mcp",
-  "kind": "mcp-setup",
+  "kind": "provider-connector",
   "product": "pipmcp",
-  "title": "Attio MCP setup and connection checker",
-  "description": "Generate Attio MCP client configuration, inspect available tools and validate hosted endpoint access through PipMCP.",
-  "operationIds": [],
+  "title": "Attio MCP server",
+  "description": "Query CRM records, inspect one record, then create a record with the workspace attribute values.",
+  "operationIds": [
+    "attio_query_records",
+    "attio_get_record",
+    "attio_create_record"
+  ],
   "appSlug": "attio",
   "appName": "Attio",
   "providerDocs": "https://api.attio.com/openapi/api",
@@ -28,10 +31,342 @@
     "requiredCredentialFields": [
       "token"
     ],
+    "settings": {},
     "requiredHeaderNames": [],
     "helpUrl": "https://attio.com/help/apps/other-apps/generating-an-api-key",
     "tenantRequired": false,
     "accountParameterNames": []
   },
-  "attributionSlug": "github-attio-mcp"
+  "attributionSlug": "github-attio-mcp",
+  "artifactType": "connector",
+  "qualityVersion": 2,
+  "connectorId": "attio",
+  "connector": {
+    "id": "attio",
+    "name": "Attio",
+    "version": "0.1.0",
+    "baseUrl": "https://api.attio.com",
+    "auth": {
+      "type": "bearer",
+      "env": "ATTIO_ACCESS_TOKEN"
+    },
+    "tools": [
+      {
+        "name": "attio_query_records",
+        "description": "attio query records",
+        "method": "POST",
+        "path": "/v2/objects/{object}/records/query",
+        "readOnly": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "object": {
+              "type": "string"
+            },
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "object"
+          ],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [
+            "object"
+          ],
+          "query": {},
+          "body": {
+            "limit": "limit"
+          }
+        },
+        "approvalRequired": false,
+        "provenance": [
+          "https://api.attio.com/openapi/api"
+        ],
+        "evidence": {
+          "state": "documented",
+          "providerLiveValidation": "not-run"
+        },
+        "sampleArguments": {
+          "object": "people",
+          "limit": 5
+        }
+      },
+      {
+        "name": "attio_get_record",
+        "description": "attio get record",
+        "method": "GET",
+        "path": "/v2/objects/{object}/records/{record_id}",
+        "readOnly": true,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "object": {
+              "type": "string"
+            },
+            "record_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "object",
+            "record_id"
+          ],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [
+            "object",
+            "record_id"
+          ],
+          "query": {},
+          "body": {}
+        },
+        "approvalRequired": false,
+        "provenance": [
+          "https://api.attio.com/openapi/api"
+        ],
+        "evidence": {
+          "state": "documented",
+          "providerLiveValidation": "not-run"
+        },
+        "sampleArguments": {
+          "object": "people",
+          "record_id": "00000000-0000-4000-8000-000000000001"
+        }
+      },
+      {
+        "name": "attio_create_record",
+        "description": "attio create record",
+        "method": "POST",
+        "path": "/v2/objects/{object}/records",
+        "readOnly": false,
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "object": {
+              "type": "string"
+            },
+            "values": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "object",
+            "values"
+          ],
+          "additionalProperties": false
+        },
+        "bindings": {
+          "path": [
+            "object"
+          ],
+          "query": {},
+          "body": {
+            "values": "data.values"
+          }
+        },
+        "approvalRequired": true,
+        "provenance": [
+          "https://api.attio.com/openapi/api"
+        ],
+        "evidence": {
+          "state": "documented",
+          "providerLiveValidation": "not-run"
+        },
+        "sampleArguments": {
+          "object": "people",
+          "values": {
+            "name": [
+              {
+                "first_name": "Sandbox",
+                "last_name": "Example",
+                "full_name": "Sandbox Example"
+              }
+            ],
+            "email_addresses": [
+              {
+                "email_address": "sandbox@example.com"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "workflow": {
+      "name": "attio-workflow",
+      "description": "Query CRM records, inspect one record, then create a record with the workspace attribute values.",
+      "steps": [
+        "attio_query_records",
+        "attio_get_record",
+        "attio_create_record"
+      ]
+    },
+    "provenance": [
+      "https://api.attio.com/openapi/api"
+    ],
+    "sourceEvidence": {
+      "state": "documented",
+      "providerLiveValidation": "not-run",
+      "checkedAt": "2026-11-08",
+      "operationCount": 3,
+      "kind": "official-openapi",
+      "sha256": "065208d4e76076d541be363cfe60938c9b60ecab0e1cb89cb23ca12bdc81e496"
+    },
+    "setup": {
+      "requiresPipMcpAccount": false,
+      "credentialsHelpUrl": "https://attio.com/help/apps/other-apps/generating-an-api-key",
+      "instructions": "In Attio, open Workspace settings → Developers, create an access token and give it the scopes you need. Copy the token."
+    },
+    "sampleWarning": "Example IDs are placeholders, not known provider records. Replace them with authorized sandbox/account IDs. Contact emails, file URLs and recipient numbers must be replaced with data you are authorized to use. Examples never authorize a write.",
+    "repoId": "attio-mcp",
+    "appSlug": "attio",
+    "product": "pipmcp",
+    "artifactType": "connector",
+    "sourceRevision": "509358ec0cb55ff51f5062144fb3ce4491a963a99686046c8bcff7e837bb9532",
+    "capabilityEvidence": {
+      "local": {
+        "level": "Tested",
+        "operations": [
+          {
+            "name": "attio_query_records",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          },
+          {
+            "name": "attio_get_record",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          },
+          {
+            "name": "attio_create_record",
+            "level": "Tested",
+            "evidenceRefs": [
+              "Provider request/stdio contract tests"
+            ],
+            "method": "contract-fixture"
+          }
+        ],
+        "evidenceRefs": [
+          "Provider request/stdio contract tests"
+        ],
+        "mode": "local"
+      },
+      "managed": {
+        "level": "Documented",
+        "operations": [
+          {
+            "name": "attio_query_records",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          },
+          {
+            "name": "attio_get_record",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          },
+          {
+            "name": "attio_create_record",
+            "level": "Documented",
+            "evidenceRefs": [],
+            "method": "documentation"
+          }
+        ],
+        "evidenceRefs": [],
+        "mode": "managed"
+      }
+    },
+    "authentication": {
+      "type": "bearer",
+      "requiredCredentialFields": [
+        "token"
+      ],
+      "settings": {},
+      "requiredHeaderNames": [],
+      "helpUrl": "https://attio.com/help/apps/other-apps/generating-an-api-key",
+      "tenantRequired": false,
+      "accountParameterNames": []
+    },
+    "managedAvailability": {
+      "status": "listed",
+      "checkedAt": "2026-11-08T12:29:10.433747+00:00"
+    }
+  },
+  "capabilityEvidence": {
+    "local": {
+      "level": "Tested",
+      "operations": [
+        {
+          "name": "attio_query_records",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "attio_get_record",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        },
+        {
+          "name": "attio_create_record",
+          "level": "Tested",
+          "evidenceRefs": [
+            "Provider request/stdio contract tests"
+          ],
+          "method": "contract-fixture"
+        }
+      ],
+      "evidenceRefs": [
+        "Provider request/stdio contract tests"
+      ],
+      "mode": "local"
+    },
+    "managed": {
+      "level": "Documented",
+      "operations": [
+        {
+          "name": "attio_query_records",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "attio_get_record",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        },
+        {
+          "name": "attio_create_record",
+          "level": "Documented",
+          "evidenceRefs": [],
+          "method": "documentation"
+        }
+      ],
+      "evidenceRefs": [],
+      "mode": "managed"
+    }
+  },
+  "utility": {
+    "problem": "Query CRM records, inspect one record, then create a record with the workspace attribute values.",
+    "output": "Actual provider API results through local MCP tools"
+  }
 }
