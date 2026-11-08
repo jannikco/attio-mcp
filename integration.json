@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "status": "ready",
+  "verification": "mock-only",
+  "releaseEligible": true,
+  "maintainer": "jannikco",
+  "license": "MIT",
+  "sourceRevision": "326e13e5219ab41838153fd14e4fa2bac574cb099eb7c58d60f2ae62c9378ffb",
+  "evidence": [
+    "Source-backed provider setup metadata",
+    "Offline configuration and MCP protocol tests"
+  ],
+  "provenance": [
+    "https://api.attio.com/openapi/api"
+  ],
+  "id": "attio-mcp",
+  "kind": "mcp-setup",
+  "product": "pipmcp",
+  "title": "Attio MCP setup and connection checker",
+  "description": "Generate Attio MCP client configuration, inspect available tools and validate hosted endpoint access through PipMCP.",
+  "operationIds": [],
+  "appSlug": "attio",
+  "appName": "Attio",
+  "providerDocs": "https://api.attio.com/openapi/api",
+  "providerWebsite": "https://attio.com/",
+  "authentication": {
+    "type": "bearer",
+    "requiredCredentialFields": [
+      "token"
+    ],
+    "requiredHeaderNames": [],
+    "helpUrl": "https://attio.com/help/apps/other-apps/generating-an-api-key",
+    "tenantRequired": false,
+    "accountParameterNames": []
+  },
+  "attributionSlug": "github-attio-mcp"
+}
