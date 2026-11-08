@@ -12,7 +12,7 @@
   "maintainer": "jannikco",
   "license": "MIT",
   "attributionSlug": "github-attio-mcp",
-  "sourceRevision": "1d1e7e8c5df511dc0fc3bdd356c58b6cd642ffc6891a4d01fc2a58226f31a32d",
+  "sourceRevision": "1e8905ab38adec032f8a23bc5e8e5b4713f7106376e9bbc6dd27336fb5662a5b",
   "qualityVersion": 2,
   "artifactType": "connector",
   "evidence": [
@@ -30,7 +30,7 @@
   "appName": "Attio",
   "connectorId": "attio",
   "executionAuthority": "pipmcp-gateway",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "agentReady": true,
   "capabilityEvidence": {
     "local": {

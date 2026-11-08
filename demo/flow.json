@@ -1,0 +1,49 @@
+{
+  "id": "account-owner-review",
+  "repositoryId": "attio-mcp",
+  "product": "pipmcp",
+  "connectorId": "attio",
+  "title": "Find Attio accounts missing an owner",
+  "promise": "Produce an account-assignment review from CRM records.",
+  "sourceRevision": "1e8905ab38adec032f8a23bc5e8e5b4713f7106376e9bbc6dd27336fb5662a5b",
+  "credential": "PIPMCP_API_KEY",
+  "transport": "pipmcp-gateway",
+  "sourceRefs": [
+    "https://api.attio.com/openapi/api"
+  ],
+  "readTask": {
+    "intent": "Produce an account-assignment review from CRM records.",
+    "requiredCapability": "Read-only authorized account data; discover actual names and schemas first"
+  },
+  "synthetic": {
+    "strategy": "equals",
+    "field": "ownerAssigned",
+    "value": false,
+    "records": [
+      {
+        "id": "synthetic-account-a",
+        "ownerAssigned": false,
+        "domain": "example.com"
+      },
+      {
+        "id": "synthetic-account-b",
+        "ownerAssigned": true,
+        "domain": "example.org"
+      }
+    ],
+    "input": {
+      "limit": 10
+    },
+    "normalization": "Invented normalized review fields demonstrate task logic; live provider schemas and field mappings must be reviewed separately.",
+    "expectedReviewCount": 1,
+    "asOf": "2026-11-08T00:00:00Z"
+  },
+  "livePolicy": {
+    "default": "preflight-only",
+    "explicitReadSelectionRequired": true,
+    "providerWritesAllowed": false,
+    "sandboxWritesRequireSeparateApproval": true
+  },
+  "baseSourceRevision": "1d1e7e8c5df511dc0fc3bdd356c58b6cd642ffc6891a4d01fc2a58226f31a32d",
+  "releaseVersion": "1.1.0"
+}
