@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "product": "pipmcp",
+  "credential": "PIPMCP_API_KEY",
+  "skills": [
+    {
+      "name": "pipmcp-attio",
+      "description": "Connect AI agents to Attio using one PipMCP API key and actual hosted tool discovery."
+    }
+  ],
+  "files": {
+    "skills/pipmcp-attio/SKILL.md": "583960c5e2666c401b4ab3fa36267120bf2a30c99c44a593e11b66a1bf64a39a"
+  }
+}
